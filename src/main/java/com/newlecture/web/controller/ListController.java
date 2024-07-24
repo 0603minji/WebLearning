@@ -17,35 +17,23 @@ import java.util.List;
 @MultipartConfig(
         maxFileSize = 100 * 1024 * 1024,
         maxRequestSize = 200 * 1024 * 1024)
-
 public class ListController extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html; UTF-8");
         PrintWriter out = resp.getWriter();
-
-        String color;
-        String[] colors = req.getParameterValues("c");
-        // for(int i=0; i<colors.length; i++)
-        System.out.println(colors);
-
-        // 페이지 옵션
-        int page = 1;
-        String page_ = req.getParameter("p");
-
-        if (page_ != null)
-            page = Integer.parseInt(page_);
-
-        ExamService service = new ExamService();
-        List<Exam> list = service.getList(page);
+        List<Exam> list = List.of(
+                new Exam("민지", 100, 100, 100),
+                new Exam("기성", 100, 100, 100)
+        );
         System.out.println(list);
 //		----------------------------------------------------
 
         req.setAttribute("list", list);
 //		// /exam/list -> forward -> /WEB-INF/view/exam/list.jsp
         req.getRequestDispatcher("/WEB-INF/view/exam/list.jsp").forward(req, resp);
-
         // resp.sendRedirect("list.jsp");
     }
 
