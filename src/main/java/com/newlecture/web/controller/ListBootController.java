@@ -12,6 +12,16 @@ public class ListBootController {
     public String doPost() {
         return "list";
     }
+
+    @getMapping("/result")
+    public String getResult() {
+        return "result";
+    }
+
+    @PostMapping("/result")
+    public String postResult() {
+        return "result";
+    }
 }
 
 
