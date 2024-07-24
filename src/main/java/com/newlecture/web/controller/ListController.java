@@ -20,21 +20,22 @@ import java.util.List;
 public class ListController extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setCharacterEncoding("UTF-8");
-        resp.setContentType("text/html; UTF-8");
-        PrintWriter out = resp.getWriter();
-        List<Exam> list = List.of(
-                new Exam("민지", 100, 100, 100),
-                new Exam("기성", 100, 100, 100)
-        );
-        System.out.println(list);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        response.setCharacterEncoding("UTF-8");
+//        response.setContentType("text/html; UTF-8");
+//        PrintWriter out = response.getWriter();
+//        List<Exam> list = List.of(
+//                new Exam("민지", 100, 100, 100),
+//                new Exam("기성", 100, 100, 100)
+//        );
+//        System.out.println(list);
 //		----------------------------------------------------
 
-        req.setAttribute("list", list);
+//        request.setAttribute("list", list);
 //		// /exam/list -> forward -> /WEB-INF/view/exam/list.jsp
-        req.getRequestDispatcher("/WEB-INF/view/exam/list.jsp").forward(req, resp);
-        // resp.sendRedirect("list.jsp");
+        request.getRequestDispatcher("/WEB-INF/view/exam/list.jsp")
+                .forward(request, response);
+        // response.sendRedirect("list.jsp");
     }
 
     @Override
