@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- header -->
+    <div th:insert="~{inc/header}"></div>
+    
+    <!-- main -->
+    <div layout:fragment="main"></div>
+
+    <!-- footer -->
+    <div th:insert="~{inc/footer}"></div>
+
+</body>
+
+</html>
+
+
+<!--
+
+[ Thymeleaf ]
+    -   서버 사이드 템플릿 엔진
+    -   HTML 문서와 Java 객체를 결합하여 동적인 웹 페이지를 생성
+    -   웹 애플리케이션의 뷰를 생성하는 데 유용
+    -   자연스러운 템플릿
+        :   Thymeleaf 템플릿은 유효한 HTML 파일
+            브라우저에서 열어보면 정적인 형태로도 작동
+            템플릿을 디자인할 때 미리보기와 디버깅이 용이
+
+    -   서버 사이드 템플릿
+        :   서버에서 렌더링되므로 클라이언트 사이드에서 JavaScript를 사용하여 동적으로 콘텐츠를 수정하는 것과는 다릅니다.
+
+표현식 언어: Thymeleaf는 자체 표현식 언어를 사용하여 템플릿 내에서 Java 객체의 속성에 접근하고, 조건문 및 반복문 등을 처리할 수 있습니다.
+
+스프링 통합: Spring Framework와의 통합이 잘 되어 있어, Spring MVC와 함께 사용할 때 매우 편리합니다. Spring의 모델 데이터와 Thymeleaf 템플릿을 쉽게 연결할 수 있습니다.
+
+
+
+
+
+
+
+-->
