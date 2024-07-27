@@ -11,7 +11,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/exam/list")
 @MultipartConfig(
@@ -21,21 +24,39 @@ public class ListController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        response.setCharacterEncoding("UTF-8");
-//        response.setContentType("text/html; UTF-8");
-//        PrintWriter out = response.getWriter();
-//        List<Exam> list = List.of(
-//                new Exam("민지", 100, 100, 100),
-//                new Exam("기성", 100, 100, 100)
-//        );
-//        System.out.println(list);
-//		----------------------------------------------------
+        /**
+         * 1. 리스트 생성
+         * List<객체> list = new ArrayList<>();
+         *
+         * 2. 리스트에 값 추가
+         * list.add(객체);
+         */
 
-//        request.setAttribute("list", list);
-//		// /exam/list -> forward -> /WEB-INF/view/exam/list.jsp
+        HashMap<String, Object> hash = new HashMap();
+        hash.put("name", "gisung");
+        hash.put("kor", 100);
+        hash.put("eng", 100);
+        hash.put("math", 100);
+        hash.put("total", 100);
+        hash.put("avg", 100);
+        hash.put("grade", "A");
+
+        HashMap<String, Object> hash1 = new HashMap<>();
+        hash1.put("name", "minji");
+        hash1.put("kor", 70);
+        hash1.put("eng", 70);
+        hash1.put("math", 70);
+        hash1.put("total", 70);
+        hash1.put("avg", 70);
+        hash1.put("grade", "B");
+
+        List<HashMap<String, Object>> hashList = new ArrayList<>();
+        hashList.add(hash1);
+        hashList.add(hash);
+
+        request.setAttribute("scores", hashList);
         request.getRequestDispatcher("/WEB-INF/view/exam/list.jsp")
                 .forward(request, response);
-        // response.sendRedirect("list.jsp");
     }
 
     @Override
@@ -67,5 +88,4 @@ public class ListController extends HttpServlet {
             fos.write(buf, 0, size);
         System.out.println(imgName);
     }
-
 }
