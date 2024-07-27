@@ -41,6 +41,7 @@ HTML과 유사한 태그를 사용하여 데이터를 출력하고 제어-->
             <tr>
                 <td>${item.name}</td>
                 <td>${item.kor}</td>
+                <td>${item.eng}</td>
                 <td>${item.math}</td>
                 <td>${item.total}</td>
                 <td>${item.avg}</td>
