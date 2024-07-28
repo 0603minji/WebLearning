@@ -205,6 +205,18 @@ public class ListController extends HttpServlet {
         List<Score> list = getScores();
         list.sort(Score::compareTo);
 
+        //  list 라인이 홀수, 짝수인지 구분
+//        for (int i = 0; i < list.size(); i++) {
+//            Score score = list.get(i);
+//            if (i % 2 == 0)
+//                score.setColor("blue");
+//            else
+//                score.setColre("yellow");
+//        }
+
+
+
+
         /**
          * todo:
          * 1. page 가 100개 있으면 100번해야해 => 반복문으로 변경해
@@ -226,11 +238,9 @@ public class ListController extends HttpServlet {
         */
         result = list.subList(startIndex, endIndex);
 
-
-
-
         request.setAttribute("scores", result);
         request.setAttribute("endPage", (int) Math.ceil((double) list.size() / 10));
+        request.setAttribute("currentPage", pageNum);
         request.getRequestDispatcher("/WEB-INF/view/exam/list.jsp")
                 .forward(request, response);
     }

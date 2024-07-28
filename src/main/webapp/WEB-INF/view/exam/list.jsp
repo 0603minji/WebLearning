@@ -41,11 +41,19 @@ HTML과 유사한 태그를 사용하여 데이터를 출력하고 제어-->
            todo:
            1. 페이지 번호가 짝수면, 짝수 라인 노랑색
            2. 페이지 번호가 홀수면, 홀 수 라인 하늘색
+           3. foreach 돌때, index를 확인해서 index도 짝수인지 확인
            --%>
-        <c:forEach var="item" items="${scores}">
-            <tr>
-                <td>${item.name}</td>
-                <td>${item.kor}</td>
+
+<%--        for(int i = 0; i< list.size(); i++ ){--%>
+        <c:forEach var="item" items="${scores}" varStatus="status">
+            <c:if test="${currentPage  % 2== 0 && status.index % 2== 0}">
+                <tr style="background-color: blue">
+            </c:if>
+            <c:if test="${currentPage % 2== 1 && status.index % 2== 1}">
+                <tr style="background-color: yellow">
+            </c:if>
+            <td>${item.name}</td>
+            <td>${item.kor}</td>
                 <td>${item.eng}</td>
                 <td>${item.math}</td>
                 <td>${item.total}</td>
@@ -53,13 +61,10 @@ HTML과 유사한 태그를 사용하여 데이터를 출력하고 제어-->
                 <td>${item.grade}</td>
             </tr>
         </c:forEach>
-
         </tbody>
     </table>
 
     <nav id="pager">
-
-
         <ul>
             <c:forEach var="i" begin="1" end="${endPage}">
                 <li><a href="?page=${i}&c=red">${i}</a></li>
