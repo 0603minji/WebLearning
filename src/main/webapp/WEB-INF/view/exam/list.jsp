@@ -33,11 +33,16 @@ HTML과 유사한 태그를 사용하여 데이터를 출력하고 제어-->
         </tr>
         </thead>
         <tbody>
-	<!--
-	var : 반복 변수 / 출력 대상 list의 원소 형태
-	items : 출력 대상 list
-	-->
-		<c:forEach var="item" items="${scores}">
+        <!--
+        var : 반복 변수 / 출력 대상 list의 원소 형태
+        items : 출력 대상 list
+        -->
+        <%--
+           todo:
+           1. 페이지 번호가 짝수면, 짝수 라인 노랑색
+           2. 페이지 번호가 홀수면, 홀 수 라인 하늘색
+           --%>
+        <c:forEach var="item" items="${scores}">
             <tr>
                 <td>${item.name}</td>
                 <td>${item.kor}</td>
@@ -51,6 +56,16 @@ HTML과 유사한 태그를 사용하여 데이터를 출력하고 제어-->
 
         </tbody>
     </table>
+
+    <nav id="pager">
+
+
+        <ul>
+            <c:forEach var="i" begin="1" end="${endPage}">
+                <li><a href="?page=${i}&c=red">${i}</a></li>
+            </c:forEach>
+        </ul>
+    </nav>
 </section>
 </body>
 </html>

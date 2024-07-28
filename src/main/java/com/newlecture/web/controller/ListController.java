@@ -10,10 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.SortedMap;
+import java.util.*;
 
 @WebServlet("/exam/list")
 @MultipartConfig(
@@ -21,7 +18,7 @@ import java.util.SortedMap;
         maxRequestSize = 200 * 1024 * 1024)
 
 public class ListController extends HttpServlet {
-    public static class Score implements Comparable<Score>{
+    public static class Score implements Comparable<Score> {
         // 멤버 변수
         private String name;
         private int kor;
@@ -190,12 +187,53 @@ public class ListController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        String url = "http://localhost:8080/exam/list?page=1&c=red&c=blue&o=apple&h=sky";
+//        String[] split = url.split("?");
+//        String urls = split[0]; //http://localhost:8080/exam/list
+//        String params = split[1]; // p=4&c=red
+//        String[] split1 = params.split("&");
+//        String firstParam = split1[0]; // p=4;
+//        String secondParam = split1[1]; // c=red;
+//        String[] split2 = firstParam.split("=");
+//        String key = split2[0]; // page
+//        String value = split2[1]; // 4
+
+        String page = request.getParameter("page");
+        System.out.println("페이지 : " + page);
+        System.out.println("컬러 : " + request.getParameter("c"));
+        System.out.println("doGet 호출");
         List<Score> list = getScores();
         list.sort(Score::compareTo);
 
-        request.setAttribute("scores", list);
+        /**
+         * todo:
+         * 1. page 가 100개 있으면 100번해야해 => 반복문으로 변경해
+         * 2. 페이지 호출을 해도 리스트의 끝번호까지만 잘라서 전달해.
+         */
+
+
+        int pageNum = (page != null) ? Integer.parseInt(page) : 1;
+        int startIndex = (pageNum - 1) * 10;
+        int endIndex = 10 * pageNum > list.size() ? list.size() : 10 * pageNum;
+
+        List<Score> result;
+        // 마지막 페이지 까지만 jsp에 전달하기 위해서  startindex, endindex 만든것
+        // 10페이지는 빈 페이지 이니 9 페이지 까지만 출력하도록
+        /*
+        if (startIndex > list.size())
+            result = new ArrayList<>();
+        else
+        */
+        result = list.subList(startIndex, endIndex);
+
+
+
+
+        request.setAttribute("scores", result);
+        request.setAttribute("endPage", (int) Math.ceil((double) list.size() / 10));
         request.getRequestDispatcher("/WEB-INF/view/exam/list.jsp")
                 .forward(request, response);
     }
 }
+
 
