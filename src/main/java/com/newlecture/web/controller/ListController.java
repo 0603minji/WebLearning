@@ -13,6 +13,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.SortedMap;
 
 @WebServlet("/exam/list")
 @MultipartConfig(
@@ -20,9 +21,9 @@ import java.util.Scanner;
         maxRequestSize = 200 * 1024 * 1024)
 
 public class ListController extends HttpServlet {
-    public static class Score {
+    public static class Score implements Comparable<Score>{
         // 멤버 변수
-        public String name;
+        private String name;
         private int kor;
         private int eng;
         private int math;
@@ -31,7 +32,27 @@ public class ListController extends HttpServlet {
         private String grade;
 
         // 생성자
+        /*
+         TODO:
+          1. 점수는 0 - 100 범위를 벗어날 수 없다. 벗어난 데이터는 모두 0 처리한다.
+          2. 이름은 3글자를 넘을수 없다. 3글자를 넘으면, 3글자만 사용한다.
+            ㄴ 문자열의 자르는 방법은 "박기성바보".substring(시작인덱스, 끝인덱스)
+          3. 이름이 빈 문자열(길이가 0) 인 애는 제외한다.
+         */
         public Score(String name, int kor, int eng, int math) {
+
+            // 1. 점수 유효성 검사
+            if (kor < 0 || kor > 100)
+                kor = 0;
+            if (eng < 0 || eng > 100)
+                eng = 0;
+            if (math < 0 || math > 100)
+                math = 0;
+
+            // 2. 이름 유효성 검사
+            if (name.length() > 3)
+                name = name.substring(0, 3);
+
             this.name = name;
             this.kor = kor;
             this.eng = eng;
@@ -42,6 +63,16 @@ public class ListController extends HttpServlet {
             if (avg > 90) grade = "A";
             else if (avg > 80) grade = "B";
             else grade = "C";
+        }
+
+
+        /**
+         * 1. 리턴값이 양수이면, 내가 더 커  == 내가 뒤에 갈 거야
+         * 2. 리턴값이 음수면, 내가 더 작아 == 내가 앞에 갈 거야
+         */
+        @Override
+        public int compareTo(Score compare) {
+            return compare.total - total;
         }
 
         // 멤버 함수
@@ -115,8 +146,9 @@ public class ListController extends HttpServlet {
                     ", grade='" + grade + '\'' +
                     '}';
         }
-    }
 
+
+    }
 
     public static List<Score> getScores() throws FileNotFoundException {
         FileInputStream fis = new FileInputStream("C:/Users/gisung/Desktop/민지자바웹/scores.csv");
@@ -140,16 +172,28 @@ public class ListController extends HttpServlet {
             math = Integer.parseInt(tokens[3]);
 
             Score score = new Score(name, kor, eng, math);
+
+            //  name 유효성 검사
+            if (score.name.equals(""))
+                continue;
             list.add(score);
         }
         return list;
     }
 
 
+    /**
+     * TODO: 성적 목록에 성적이 높은순으로 출력되도록 고쳐보세요.
+     * ex. List를 오름차순으로 정렬하는 방법은 list.sort() 입니다.
+     * 내림차순으로 정렬하는 방법을 찾아보세요.
+     */
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("scores", getScores());
+        List<Score> list = getScores();
+        list.sort(Score::compareTo);
+
+        request.setAttribute("scores", list);
         request.getRequestDispatcher("/WEB-INF/view/exam/list.jsp")
                 .forward(request, response);
     }
