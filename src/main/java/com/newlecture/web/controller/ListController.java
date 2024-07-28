@@ -144,7 +144,9 @@ public class ListController extends HttpServlet {
                     '}';
         }
 
-
+        public String toCSVString() {
+            return name + "," + kor + "," + eng + "," + math;
+        }
     }
 
     public static List<Score> getScores() throws FileNotFoundException {
@@ -213,8 +215,6 @@ public class ListController extends HttpServlet {
 //            else
 //                score.setColre("yellow");
 //        }
-
-
 
 
         /**

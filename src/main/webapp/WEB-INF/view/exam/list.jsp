@@ -18,6 +18,30 @@ HTML과 유사한 태그를 사용하여 데이터를 출력하고 제어-->
 
 
 <body>
+
+<section>
+    <h1>성적 등록</h1>
+    <%--
+    method가 "post" 로 선언되어 있어
+    "/exam/register" url로 post요청이 보내진다.
+      --%>
+    <form style="border: 1px solid black;" action="/exam/register" method="post">
+        <label for="name">이름:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="kor">국어 점수:</label>
+        <input type="number" id="kor" name="kor" min="0" max="100" required><br><br>
+
+        <label for="eng">영어 점수:</label>
+        <input type="number" id="eng" name="eng" min="0" max="100" required><br><br>
+
+        <label for="math">수학 점수:</label>
+        <input type="number" id="math" name="math" min="0" max="100" required><br><br>
+        <input type="submit" value="제출">
+    </form>
+</section>
+
+
 <section>
     <h1>성적목록</h1>
     <table style="border: 1px solid black;">
@@ -63,7 +87,6 @@ HTML과 유사한 태그를 사용하여 데이터를 출력하고 제어-->
         </c:forEach>
         </tbody>
     </table>
-
     <nav id="pager">
         <ul>
             <c:forEach var="i" begin="1" end="${endPage}">
